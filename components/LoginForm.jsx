@@ -76,20 +76,12 @@ export default function LoginForm() {
             <Image
               src="/G.png"
               alt="Google logo"
-              width={50}
-              height={50}
+              width={30}
+              height={30}
               style={{ width: "auto", height: "auto" }}
               className="rounded-md mr-2"
             />
             Sign In with Google
-            <Image
-              src="/tips.png"
-              alt="tips icon"
-              width={50}
-              height={50}
-              style={{ width: "auto", height: "auto" }}
-              className="rounded-md ml-2"
-            />
           </button>
         </form>
       </div>
