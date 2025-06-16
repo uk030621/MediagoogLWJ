@@ -1,0 +1,191 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+input {
+  @apply w-[300px] rounded-md border border-gray-200 py-2 px-6 bg-zinc-100/40 bg-white;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+header {
+  background-color: hsl(0, 6%, 10%);
+  padding: 0;
+  color: white;
+  width: 100%;
+  position: sticky; /* Ensures header stays at the top */
+  top: 0; /* Sticky positioning at the top */
+  z-index: 1000; /* Keeps the header above content */
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between; /* Space out elements across the navbar */
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0.5rem 0rem;
+}
+
+.nav-links-container {
+  overflow-x: auto; /* 🔹 Enable horizontal scrolling */
+  white-space: nowrap; /* 🔹 Prevent items from wrapping */
+  -webkit-overflow-scrolling: touch; /* 🔹 Smooth scrolling on mobile */
+}
+
+.nav-links-container::-webkit-scrollbar {
+  display: none; /* 🔹 Hide scrollbar for better aesthetics */
+}
+
+/*.logo {
+  margin-left: 20px;
+  opacity: 1;
+  border-radius: 50px;
+}*/
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  justify-content: space-between; /* Distribute the links evenly */
+  flex: 1; /* Allow links to take up full available space */
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links li {
+  margin: 0; /* Remove default margin */
+}
+
+.nav-links a {
+  color: white;
+  font-size: large;
+  font-family: "Roboto", sans-serif;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  display: block;
+}
+
+.nav-links a:hover {
+  color: yellow;
+  text-decoration-line: underline;
+  text-underline-offset: 5px;
+}
+
+main {
+  padding: 0px;
+  max-width: 2200px;
+  flex: 1;
+  display: flex;
+  justify-content: flex-start; /* Align content towards the top */
+  align-items: flex-start; /* Align items to start instead of center */
+  flex-direction: column;
+  text-align: center;
+}
+
+footer {
+  background-color: hsl(0, 4%, 10%);
+  color: white;
+  text-align: center;
+  padding: 1.5rem 0;
+  width: 100%;
+}
+
+/* Media query for smaller screens */
+@media (max-width: 375px) {
+  .nav-links {
+    flex-direction: column; /* Stack links vertically */
+    align-items: center;
+    width: 100%;
+  }
+
+  .nav-links li {
+    margin: 0.5rem 0; /* Add space between vertical links */
+  }
+}
+
+.background-container {
+  position: relative;
+  width: 100%;
+  flex: 1; /* Allow it to grow and fill the available space */
+  overflow: hidden; /* Keep overflow behavior for the background video */
+}
+
+.background-video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover; /* Ensures the video covers the viewport without distortion */
+  transform: translate(-50%, -50%);
+  z-index: -1;
+  opacity: 0.5;
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100vh;
+}
+
+h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+p {
+  font-size: 1.2rem;
+}
+
+/* Media Query for smaller screens */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  p {
+    font-size: 1rem;
+  }
+}
+
+form > div {
+  @apply flex flex-col gap-2;
+}
+
+input,
+textarea {
+  @apply shadow-md px-6 py-2 border border-slate-300;
+}
+
+.bg-background::before {
+  content: ""; /* Create a pseudo-element for the background */
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url("paper-texture.jpg"); /* Your image URL */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.4; /* Apply opacity only to the background */
+  z-index: -1; /* Place pseudo-element behind content */
+}

@@ -1,0 +1,41 @@
+/* styles/Home.module.css */
+
+.homeContainer {
+  text-align: center;
+  padding: 2rem;
+  padding-top: 10px;
+}
+
+.title {
+  font-size: 3rem;
+  color: #333;
+}
+
+.description {
+  font-size: 1rem;
+  color: #1f1e1e;
+  margin-top: 10px;
+  font-weight: 600;
+}
+
+/* Updated for compatibility */
+.gradientText {
+  font-size: 2rem;
+
+  margin-bottom: 0;
+
+  background: linear-gradient(90deg, blue, red, blue); /* Gradient colors */
+
+  /* Webkit specific background-clip */
+  -webkit-background-clip: text; /* Safari and Chrome */
+
+  /* Standard background-clip */
+  background-clip: text; /* For modern browsers */
+
+  color: transparent; /* Make the text color transparent so the gradient shows */
+}
+
+/* Add this to your CSS file if needed */
+.transition-opacity {
+  transition: opacity 0.7s ease;
+}
