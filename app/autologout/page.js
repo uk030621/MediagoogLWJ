@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { signOut } from "next-auth/react";
 
-const INACTIVITY_LIMIT = 180 * 60 * 1000; // 180 minutes
+const INACTIVITY_LIMIT = 400 * 60 * 1000; // 240 minutes
 const MODAL_TIMEOUT = 30 * 1000; // 30 seconds
 
 const AutoLogout = () => {
