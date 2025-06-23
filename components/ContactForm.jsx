@@ -1,13 +1,22 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react"; // ⬅️ Import session
 
 export default function ContactForm() {
+  const { data: session } = useSession(); // ⬅️ Grab session
   const [fullname, setFullname] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState([]);
   const [success, setSuccess] = useState(false);
+
+  useEffect(() => {
+    if (session?.user) {
+      setFullname(session.user.name || "");
+      setEmail(session.user.email || "");
+    }
+  }, [session]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -54,6 +63,7 @@ export default function ContactForm() {
             id="fullname"
             placeholder="John Doe"
             className="bg-white"
+            readOnly={!!session?.user?.name} // optional: prevent editing
           />
         </div>
 
@@ -66,6 +76,7 @@ export default function ContactForm() {
             id="email"
             placeholder="john@gmail.com"
             className="bg-white"
+            readOnly={!!session?.user?.email} // optional: prevent editing
           />
         </div>
 
