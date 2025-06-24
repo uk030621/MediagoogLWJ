@@ -2,14 +2,30 @@ import connectDB from "@/lib/mongodbmongoose";
 import Contact from "@/models/contact";
 import { NextResponse } from "next/server";
 import mongoose from "mongoose";
+import { Resend } from "resend";
 
-// POST method to save a new contact message
+const resend = new Resend(process.env.RESEND_API_KEY);
+
 export async function POST(req) {
   const { fullname, email, message } = await req.json();
 
   try {
     await connectDB();
     await Contact.create({ fullname, email, message });
+
+    // Send notification email to you
+    await resend.emails.send({
+      from: process.env.RESEND_FROM, // e.g., noreply@lwjformedia.com
+      to: process.env.RESEND_TO, // your own email
+      subject: "New Contact Form Submission",
+      html: `
+        <h2>New message from your website</h2>
+        <p><strong>Name:</strong> ${fullname}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Message:</strong></p>
+        <p>${message.replace(/\n/g, "<br/>")}</p>
+      `,
+    });
 
     return NextResponse.json({
       msg: ["Message sent successfully"],
@@ -21,9 +37,9 @@ export async function POST(req) {
       for (let e in error.errors) {
         errorList.push(error.errors[e].message);
       }
-      console.log(errorList);
       return NextResponse.json({ msg: errorList });
     } else {
+      console.error("Unexpected error:", error);
       return NextResponse.json({ msg: ["Unable to send message."] });
     }
   }
