@@ -15,28 +15,28 @@ export async function POST(req) {
 
     // Send notification email to you
     await resend.emails.send({
-      from: "LWJ Form <noreply@ljoformedia.com>",
+      from: `Contact Form <${process.env.RESEND_FROM}>`, // more friendly format
       to: process.env.RESEND_TO,
-      reply_to: userEmail,
-      subject: `📬 New message from ${fullname}`,
-      headers: {
-        "List-Unsubscribe": "<mailto:unsubscribe@ljoformedia.com>",
-      },
+      reply_to: email, // ensures replies go to the user
+      subject: `📩 New message from ${fullname}`,
+      html: `
+    <div style="font-family: sans-serif; line-height: 1.5;">
+      <h2>New Contact Form Submission</h2>
+      <p><strong>Name:</strong> ${fullname}</p>
+      <p><strong>Email:</strong> ${email}</p>
+      <p><strong>Message:</strong></p>
+      <p>${message.replace(/\n/g, "<br/>")}</p>
+    </div>
+  `,
       text: `
+New Contact Form Submission
+
 Name: ${fullname}
-Email: ${userEmail}
+Email: ${email}
 
 Message:
 ${message}
   `.trim(),
-      html: `
-<div style="font-family: sans-serif; line-height:1.5">
-  <h2>New Contact Form Submission</h2>
-  <p><strong>Name:</strong> ${fullname}</p>
-  <p><strong>Email:</strong> ${userEmail}</p>
-  <p><strong>Message:</strong></p>
-  <p>${message.replace(/\n/g, "<br/>")}</p>
-</div>`,
     });
 
     return NextResponse.json({
