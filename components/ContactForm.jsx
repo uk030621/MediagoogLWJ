@@ -1,10 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useSession } from "next-auth/react"; // ⬅️ Import session
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function ContactForm() {
-  const { data: session } = useSession(); // ⬅️ Grab session
+  const { data: session } = useSession();
+  const router = useRouter();
+
   const [fullname, setFullname] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
@@ -30,11 +33,7 @@ export default function ContactForm() {
       headers: {
         "Content-type": "application/json",
       },
-      body: JSON.stringify({
-        fullname,
-        email,
-        message,
-      }),
+      body: JSON.stringify({ fullname, email, message }),
     });
 
     const { msg, success } = await res.json();
@@ -45,6 +44,10 @@ export default function ContactForm() {
       setFullname("");
       setEmail("");
       setMessage("");
+
+      setTimeout(() => {
+        router.push("/mediastart");
+      }, 2000);
     }
   };
 
@@ -63,7 +66,7 @@ export default function ContactForm() {
             id="fullname"
             placeholder="John Doe"
             className="bg-white"
-            readOnly={!!session?.user?.name} // optional: prevent editing
+            readOnly={!!session?.user?.name}
           />
         </div>
 
@@ -76,7 +79,7 @@ export default function ContactForm() {
             id="email"
             placeholder="john@gmail.com"
             className="bg-white"
-            readOnly={!!session?.user?.email} // optional: prevent editing
+            readOnly={!!session?.user?.email}
           />
         </div>
 
@@ -103,7 +106,7 @@ export default function ContactForm() {
         {error &&
           error.map((e, index) => (
             <div
-              key={index} // Adding a unique key
+              key={index}
               className={`${
                 success ? "text-green-800" : "text-red-600"
               } px-5 py-2`}
