@@ -1,7 +1,7 @@
 import connectDB from "@/lib/mongodbmongoose";
 import Contact from "@/models/contact";
 import { NextResponse } from "next/server";
-import mongoose from "mongoose";
+//import mongoose from "mongoose";
 import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -15,21 +15,20 @@ export async function POST(req) {
 
     // Send notification email to you
     await resend.emails.send({
-      from: `Contact Form <${process.env.RESEND_FROM}>`, // more friendly format
+      from: `Connect Form <${process.env.RESEND_FROM}>`, // more friendly format
       to: process.env.RESEND_TO,
       reply_to: email,
-      subject: `New Contact Message from ${fullname}`,
+      subject: `New inquiry from ${fullname} via lwjformedia.com`,
       html: `
-      <h2>LWJ Contact</h2>
+      <h2>LWJ Connect</h2>
       <p><strong>Name:</strong> ${fullname}</p>
       <p><strong>Email:</strong> ${email}</p>
       <p><strong>Message:</strong></p>
       <p>${message.replace(/\n/g, "<br>")}</p>
       <hr />
-      <small>Sent from lwjformedia.com contact form</small>
+      <small>Sent from lwjformedia.com connect form</small>
     `,
-      text: `
-LWJ Contact Form
+      text: `LWJ Connect Form
 
 Name: ${fullname}
 Email: ${email}
@@ -37,10 +36,10 @@ Email: ${email}
 Message:
 ${message}
 
-Sent via lwjformedia.com contact form
+Sent via lwjformedia.com connect form
     `,
       headers: {
-        "List-Unsubscribe": "<mailto:unsubscribe@ljoformedia.com>",
+        "List-Unsubscribe": "<mailto:unsubscribe@lwjformedia.com>",
       },
     });
 
