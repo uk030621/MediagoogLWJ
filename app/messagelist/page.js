@@ -156,8 +156,8 @@ export default function MessageList() {
                 !hiddenMessages.includes(message._id) ? ( // Exclude hidden messages
                   <div
                     key={message._id}
-                    className={`p-4 border border-gray-200 bg-white rounded shadow ${
-                      message.done ? "bg-green-100" : ""
+                    className={`p-4 border border-gray-200 rounded shadow ${
+                      message.done ? "bg-green-100" : "bg-white"
                     }`}
                   >
                     <h2 className="text-xl font-semibold text-blue-700">
