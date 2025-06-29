@@ -74,13 +74,35 @@ export default function MessageList() {
   };
 
   // Handle "Done" checkbox
-  const handleDone = (id) => {
-    const updatedMessages = filteredMessages.map((message) =>
-      message._id === id
-        ? { ...message, done: !message.done } // Toggle 'done' status
-        : message
-    );
-    setFilteredMessages(updatedMessages);
+  // Inside MessageList component
+  const handleDone = async (id) => {
+    const messageToUpdate = filteredMessages.find((msg) => msg._id === id);
+    if (!messageToUpdate) return;
+
+    const newDoneStatus = !messageToUpdate.done;
+
+    try {
+      const res = await fetch(`/api/contact/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ done: newDoneStatus }),
+      });
+
+      const result = await res.json();
+
+      if (res.ok) {
+        const updatedMessages = filteredMessages.map((msg) =>
+          msg._id === id ? { ...msg, done: newDoneStatus } : msg
+        );
+        setFilteredMessages(updatedMessages);
+      } else {
+        console.error("Failed to update message:", result.msg);
+      }
+    } catch (error) {
+      console.error("Error updating message:", error);
+    }
   };
 
   // Unhide all messages
