@@ -13,6 +13,7 @@ const YouTubeSearch = () => {
   const [videos, setVideos] = useState([]);
   const [error, setError] = useState(null);
   const router = useRouter();
+  const [previewVideoId, setPreviewVideoId] = useState(null);
 
   const handleSearch = async () => {
     if (!query) return;
@@ -213,12 +214,13 @@ const YouTubeSearch = () => {
               className="border p-4 flex flex-col rounded-md bg-white shadow-md"
             >
               <Image
-                src={video.snippet.thumbnails.medium.url} // Thumbnail URL
-                alt={video.snippet.title} // Alt text for accessibility
-                width={320} // Width of the image (can be adjusted based on your layout)
-                height={180} // Height of the image (can be adjusted based on your layout)
+                src={video.snippet.thumbnails.medium.url}
+                alt={video.snippet.title}
+                width={320}
+                height={180}
                 className="w-full h-auto rounded-md"
               />
+
               <div className="mt-3">
                 <h3 className="font-bold text-lg">
                   {he.decode(video.snippet.title)}
@@ -226,14 +228,47 @@ const YouTubeSearch = () => {
                 <p className="text-sm text-gray-700">
                   {sanitizeText(video.snippet.description)}
                 </p>
-                <button
-                  className="bg-green-500 text-white p-2 mt-2 rounded-md w-full"
-                  onClick={() =>
-                    handleCopyVideoID(video.id.videoId, video.snippet.title)
-                  }
-                >
-                  Add to Library
-                </button>
+
+                <div className="flex gap-2 mt-2">
+                  <button
+                    className="bg-blue-500 text-white px-3 py-1 rounded-md"
+                    onClick={() =>
+                      setPreviewVideoId(
+                        previewVideoId === video.id.videoId
+                          ? null
+                          : video.id.videoId
+                      )
+                    }
+                  >
+                    {previewVideoId === video.id.videoId
+                      ? "Close Preview"
+                      : "Preview"}
+                  </button>
+
+                  <button
+                    className="bg-green-500 text-white px-3 py-1 rounded-md"
+                    onClick={() =>
+                      handleCopyVideoID(video.id.videoId, video.snippet.title)
+                    }
+                  >
+                    Add to Library
+                  </button>
+                </div>
+
+                {/* Render YouTube iframe preview if selected */}
+                {previewVideoId === video.id.videoId && (
+                  <div className="mt-4">
+                    <iframe
+                      width="100%"
+                      height="215"
+                      src={`https://www.youtube.com/embed/${video.id.videoId}`}
+                      title="YouTube video preview"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      className="rounded-md"
+                    ></iframe>
+                  </div>
+                )}
               </div>
             </div>
           ))}

@@ -83,6 +83,18 @@ export default function LoginForm() {
             />
             Sign In with Google
           </button>
+          <p className="mt-2 text-sm text-black text-right">
+            Don&apos;t have a Google account?{" "}
+            <Link
+              href="https://support.google.com/accounts/answer/27441?hl=en"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-500 hover:underline"
+            >
+              <br />
+              <span>Create one here</span>
+            </Link>
+          </p>
         </form>
       </div>
     </div>
